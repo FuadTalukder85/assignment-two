@@ -33,4 +33,4 @@ const userSchema = new Schema<User>({
   orders: { type: [orderSchema], required: false },
 });
 
-const User = model<User>('User', userSchema);
+export const UserModel = model<User>('User', userSchema);
