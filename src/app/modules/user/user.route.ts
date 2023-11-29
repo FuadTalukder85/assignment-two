@@ -7,5 +7,10 @@ router.post('/api/users', UserController.createUser);
 
 //get all user
 router.get('/api/users', UserController.getAllUsers);
+// router.get('/', UserController.getAllUsers);
+//
+
+//get single user
+router.get('/api/users/:userId', UserController.getSingleUsers);
 
 export const UserRoutes = router;
