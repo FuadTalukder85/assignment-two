@@ -1,9 +1,10 @@
-import express, { Request, Response } from 'express';
-const app = express();
+import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import { UserRoutes } from './app/modules/user/user.route';
 
-app.use(express());
+const app: Application = express();
+
+app.use(express.json());
 app.use(cors());
 
 app.use('/v2', UserRoutes);
