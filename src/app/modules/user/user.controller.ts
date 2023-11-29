@@ -4,16 +4,6 @@ import { userValidationSchema } from './user.zod.validation';
 
 const createUser = async (req: Request, res: Response) => {
   try {
-    // const userValidationSchema = z.object({
-    //   userId: z.number(),
-    //   userName: z.string(),
-    //   password: z.string(),
-    //   fullName: z.object({
-    //     firstName: z.string(),
-    //     lastName: z.string(),
-    //   }),
-    // });
-
     const user = req.body.user;
     const zodValidationSchema = userValidationSchema.parse(user);
 
@@ -24,7 +14,11 @@ const createUser = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    console.log(err);
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong',
+      error: err,
+    });
   }
 };
 
