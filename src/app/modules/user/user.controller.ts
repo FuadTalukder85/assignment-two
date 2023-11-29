@@ -44,10 +44,8 @@ const getAllUsers = async (req: Request, res: Response) => {
 //get single user
 const getSingleUsers = async (req: Request, res: Response) => {
   try {
-    // const userId = parseInt(req.params.userId);
     const { userId } = req.params;
-    console.log(userId);
-    const result = await UserService.getSingleStudentFromDB(userId);
+    const result = await UserService.getSingleStudentFromDB(parseFloat(userId));
     res.status(200).json({
       success: true,
       message: 'User fetched successfully!',
