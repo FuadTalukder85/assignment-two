@@ -22,4 +22,5 @@ export type User = {
     country: string;
   };
   orders?: Orders[] | null;
+  isDeleted: boolean;
 };

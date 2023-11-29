@@ -31,5 +31,6 @@ const UserSchema = z.object({
     country: z.string().min(1, { message: 'Country is required' }),
   }),
   orders: z.array(OrderSchema).optional(),
+  isDeleted: z.boolean(),
 });
 export const userValidationSchema = UserSchema;

@@ -45,10 +45,32 @@ const getAllUsers = async (req: Request, res: Response) => {
 const getSingleUsers = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
-    const result = await UserService.getSingleStudentFromDB(parseFloat(userId));
+    const result = await UserService.getSingleUserFromDB(parseFloat(userId));
     res.status(200).json({
       success: true,
       message: 'User fetched successfully!',
+      data: result,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: 'User not found',
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
+    });
+  }
+};
+
+//delete single user
+const deleteSingleUsers = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const result = await UserService.deleteUserFromDB(parseFloat(userId));
+    res.status(200).json({
+      success: true,
+      message: 'User deleted successfully!',
       data: result,
     });
   } catch (err) {
@@ -67,4 +89,5 @@ export const UserController = {
   createUser,
   getAllUsers,
   getSingleUsers,
+  deleteSingleUsers,
 };
