@@ -1,5 +1,7 @@
 import { Schema, model } from 'mongoose';
 import { Orders, User } from './user/user.interface';
+import bcrypt from 'bcrypt';
+import config from '../config';
 
 const orderSchema = new Schema<Orders>({
   productName: { type: String, required: [true, 'productName is required'] },
@@ -43,6 +45,22 @@ const userSchema = new Schema<User>({
     country: { type: String, required: [true, 'country is required'] },
   },
   orders: { type: [orderSchema], required: false },
+});
+
+userSchema.pre('save', async function (next) {
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
+  const user = this;
+  user.password = await bcrypt.hash(
+    user.password,
+    Number(config.bcrypt_salt_rounds),
+  );
+  next();
+});
+
+userSchema.post('save', function (doc, next) {
+  doc.password = '';
+
+  next();
 });
 
 export const UserModel = model<User>('User', userSchema);
