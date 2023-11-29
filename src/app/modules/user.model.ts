@@ -9,7 +9,11 @@ const orderSchema = new Schema<Orders>({
 
 const userSchema = new Schema<User>({
   userId: { type: Number, unique: true, required: [true, 'Id is required'] },
-  username: { type: String, required: [true, 'User name is required'] },
+  username: {
+    type: String,
+    required: [true, 'User name is required'],
+    unique: true,
+  },
   password: {
     type: String,
     required: [true, 'Password is required'],
