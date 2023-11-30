@@ -32,9 +32,20 @@ const deleteUserFromDB = async (userId: number) => {
   return result;
 };
 
+//update user
+const updateUserFromDB = async (userId: number, userData: object) => {
+  const result = User.findOneAndUpdate(
+    { userId },
+    { $set: userData },
+    { new: true },
+  );
+  return result;
+};
+
 export const UserService = {
   createUserIntoDB,
   getAllUserFromDB,
   getSingleUserFromDB,
   deleteUserFromDB,
+  updateUserFromDB,
 };

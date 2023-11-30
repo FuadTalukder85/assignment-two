@@ -17,5 +17,7 @@ router.get('/api/users/:userId', UserController.getSingleUsers);
 router.delete('/api/users/:userId', UserController.deleteSingleUsers);
 
 //update user
+router.put('/api/users/:userId', UserController.updateSingleUser);
+// router.put('/api/users/:userId', UserController.updateSingleUsers);
 
 export const UserRoutes = router;
