@@ -5,7 +5,7 @@ import { userValidationSchema } from './user.zod.validation';
 //create user
 const createUser = async (req: Request, res: Response) => {
   try {
-    const user = req.body.user;
+    const user = req.body;
     const zodValidationSchema = userValidationSchema.parse(user);
 
     const result = await UserService.createUserIntoDB(zodValidationSchema);
@@ -14,10 +14,10 @@ const createUser = async (req: Request, res: Response) => {
       message: 'User created successfully!',
       data: result,
     });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({
       success: false,
-      message: 'Something went wrong',
+      message: err.message || 'Something went wrong',
       error: err,
     });
   }
@@ -85,32 +85,9 @@ const deleteSingleUsers = async (req: Request, res: Response) => {
   }
 };
 
-//update user
-const updateSingleUsers = async (req: Request, res: Response) => {
-  try {
-    const { userId } = req.params;
-    const result = await UserService.updateUserFromDb(parseFloat(userId));
-    res.status(200).json({
-      success: true,
-      message: 'User updated successfully!',
-      data: result,
-    });
-  } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: 'User not found',
-      error: {
-        code: 404,
-        description: 'User not found!',
-      },
-    });
-  }
-};
-
 export const UserController = {
   createUser,
   getAllUsers,
   getSingleUsers,
   deleteSingleUsers,
-  updateSingleUsers,
 };

@@ -1,10 +1,12 @@
-export type Orders = {
+import { Model } from 'mongoose';
+
+export type TOrders = {
   productName: string;
   price: number;
   quantity: number;
 };
 
-export type User = {
+export type TUser = {
   userId: number;
   username: string;
   password: string;
@@ -21,6 +23,13 @@ export type User = {
     city: string;
     country: string;
   };
-  orders?: Orders[] | null;
+  orders?: TOrders[] | null;
   isDeleted: boolean;
 };
+
+export type UserMethods = {
+  // eslint-disable-next-line no-unused-vars
+  isUserExists(userId: number): Promise<TUser | null>;
+};
+
+export type UserModel = Model<TUser, Record<string, never>, UserMethods>;
