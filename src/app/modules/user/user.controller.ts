@@ -145,6 +145,38 @@ const getOrders = async (req: Request, res: Response) => {
       message: 'Order fetched successfully!',
       data: result,
     });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
+    res.status(404).json({
+      success: false,
+      message: err.message || 'Something went wronggg',
+      data: null,
+    });
+  }
+};
+
+// get total price by uderId
+const getTotalPrice = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.userId;
+    const user = await User.isUserExists(parseFloat(userId));
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+        error: {
+          code: 404,
+          description: 'User not found!',
+        },
+      });
+    }
+    const result = await UserService.getPrice(parseFloat(userId));
+    res.status(200).json({
+      success: true,
+      message: 'Total price calculated successfully!',
+      data: result,
+    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     res.status(404).json({
       success: false,
@@ -161,4 +193,5 @@ export const UserController = {
   deleteSingleUsers,
   addOrders,
   getOrders,
+  getTotalPrice,
 };

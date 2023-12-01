@@ -20,4 +20,10 @@ router.put('/api/users/:userId/orders', UserController.addOrders);
 //get orders
 router.get('/api/users/:userId/orders', UserController.getOrders);
 
+// get total price
+router.get(
+  '/api/users/:userId/orders/total-price',
+  UserController.getTotalPrice,
+);
+
 export const UserRoutes = router;
