@@ -112,6 +112,38 @@ const addOrders = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: 'Order created successfully!',
+      data: null,
+    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
+    res.status(404).json({
+      success: false,
+      message: err.message || 'Something went wronggg',
+      data: null,
+    });
+  }
+};
+
+//get orders
+const getOrders = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.userId;
+    const user = await User.isUserExists(parseFloat(userId));
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+        error: {
+          code: 404,
+          description: 'User not found!',
+        },
+      });
+    }
+    const result = await UserService.getOrder(parseFloat(userId));
+    res.status(200).json({
+      success: true,
+      message: 'Order fetched successfully!',
+      data: result,
     });
   } catch (err: any) {
     res.status(404).json({
@@ -128,4 +160,5 @@ export const UserController = {
   getSingleUsers,
   deleteSingleUsers,
   addOrders,
+  getOrders,
 };
