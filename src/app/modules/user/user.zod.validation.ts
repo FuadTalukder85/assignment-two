@@ -36,6 +36,4 @@ const UserValidationSchema = z.object({
 
 // update validation schema
 
-// export const userValidationSchema = UserSchema;
-// export const userValidationSchema = UserSchema;
-export { UserValidationSchema };
+export { UserValidationSchema, OrderSchema };

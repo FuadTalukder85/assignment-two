@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { TOrders, TUser, UserModel, UserMethods } from './user/user.interface';
+import { TOrders, TUser, UserModel } from './user/user.interface';
 import bcrypt from 'bcrypt';
 import config from '../config';
 
@@ -9,7 +9,7 @@ const orderSchema = new Schema<TOrders>({
   quantity: { type: Number, required: [true, 'quantity is required'] },
 });
 
-const userSchema = new Schema<TUser, UserModel, UserMethods>({
+const userSchema = new Schema<TUser, UserModel>({
   userId: { type: Number, unique: true, required: [true, 'Id is required'] },
   username: {
     type: String,
@@ -78,10 +78,14 @@ userSchema.pre('findOne', function (next) {
 //   next();
 // });
 
-/*** */
-userSchema.methods.isUserExists = async function (userId: number) {
+userSchema.statics.isUserExists = async function (userId: number) {
   const existingUser = await User.findOne({ userId });
   return existingUser;
 };
+
+// userSchema.methods.isUserExists = async function (userId: number) {
+//   const existingUser = await User.findOne({ userId });
+//   return existingUser;
+// };
 
 export const User = model<TUser, UserModel>('User', userSchema);

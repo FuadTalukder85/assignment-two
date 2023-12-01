@@ -1,15 +1,20 @@
 import { User } from '../user.model';
-import { TUser } from './user.interface';
+import { TOrders, TUser } from './user.interface';
 
 //create user
 const createUserIntoDB = async (userData: TUser) => {
-  /** */
-  const user = new User(userData);
-  if (await user.isUserExists(userData.userId)) {
+  if (await User.isUserExists(userData.userId)) {
     throw new Error('User already exists');
   }
 
-  const result = await user.save();
+  const result = await User.create(userData);
+
+  // const user = new User(userData);
+  // if (await user.isUserExists(userData.userId)) {
+  //   throw new Error('User already exists');
+  // }
+  // const result = await user.save();
+
   return result;
 };
 
@@ -32,9 +37,19 @@ const deleteUserFromDB = async (userId: number) => {
   return result;
 };
 
+//add orders
+const addOrder = async (userId: number, order: TOrders) => {
+  const result = await User.findOneAndUpdate(
+    { userId },
+    { $push: { orders: order } },
+  );
+  return result;
+};
+
 export const UserService = {
   createUserIntoDB,
   getAllUserFromDB,
   getSingleUserFromDB,
   deleteUserFromDB,
+  addOrder,
 };

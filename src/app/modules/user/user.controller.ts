@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
 import { UserService } from './user.service';
 import {
+  OrderSchema,
   // UpdateUserValidationSchema,
   UserValidationSchema,
 } from './user.zod.validation';
-// import { User } from '../user.model';
+import { User } from '../user.model';
 
 //create user
 const createUser = async (req: Request, res: Response) => {
@@ -20,7 +21,7 @@ const createUser = async (req: Request, res: Response) => {
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    res.status(500).json({
+    res.status(404).json({
       success: false,
       message: err.message || 'Something went wronggg',
       error: err,
@@ -90,10 +91,41 @@ const deleteSingleUsers = async (req: Request, res: Response) => {
   }
 };
 
+//add orders
+const addOrders = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.userId;
+    const user = await User.isUserExists(parseFloat(userId));
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+        error: {
+          code: 404,
+          description: 'User not found!',
+        },
+      });
+    }
+    const order = req.body;
+    const zodValidationOrderSchema = OrderSchema.parse(order);
+    await UserService.addOrder(parseFloat(userId), zodValidationOrderSchema);
+    res.status(200).json({
+      success: true,
+      message: 'Order created successfully!',
+    });
+  } catch (err: any) {
+    res.status(404).json({
+      success: false,
+      message: err.message || 'Something went wronggg',
+      data: null,
+    });
+  }
+};
+
 export const UserController = {
   createUser,
   getAllUsers,
   getSingleUsers,
   deleteSingleUsers,
-  // updateSingleUser,
+  addOrders,
 };
