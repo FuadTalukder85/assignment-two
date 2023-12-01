@@ -3,12 +3,12 @@ import { TUser } from './user.interface';
 
 //create user
 const createUserIntoDB = async (userData: TUser) => {
-  // const result = await User.create(user);
-
+  /** */
   const user = new User(userData);
   if (await user.isUserExists(userData.userId)) {
     throw new Error('User already exists');
   }
+
   const result = await user.save();
   return result;
 };
@@ -32,20 +32,9 @@ const deleteUserFromDB = async (userId: number) => {
   return result;
 };
 
-//update user
-const updateUserFromDB = async (userId: number, userData: object) => {
-  const result = User.findOneAndUpdate(
-    { userId },
-    { $set: userData },
-    { new: true },
-  );
-  return result;
-};
-
 export const UserService = {
   createUserIntoDB,
   getAllUserFromDB,
   getSingleUserFromDB,
   deleteUserFromDB,
-  updateUserFromDB,
 };

@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import { UserService } from './user.service';
 import {
-  UpdateUserValidationSchema,
+  // UpdateUserValidationSchema,
   UserValidationSchema,
 } from './user.zod.validation';
-import { User } from '../user.model';
+// import { User } from '../user.model';
 
 //create user
 const createUser = async (req: Request, res: Response) => {
@@ -20,9 +20,9 @@ const createUser = async (req: Request, res: Response) => {
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    res.status(404).json({
+    res.status(500).json({
       success: false,
-      message: err.message || 'Something went wrong',
+      message: err.message || 'Something went wronggg',
       error: err,
     });
   }
@@ -90,52 +90,10 @@ const deleteSingleUsers = async (req: Request, res: Response) => {
   }
 };
 
-//update user
-const updateSingleUser = async (req: Request, res: Response) => {
-  try {
-    const userId = req.params.userId;
-    const updatedUserData = req.body;
-
-    const zodUpdateUserSchema =
-      UpdateUserValidationSchema.parse(updatedUserData);
-    const user = await User.isUserExists(parseFloat(userId));
-
-    if (!user) {
-      res.status(404).json({
-        success: false,
-        message: 'User not found',
-        error: {
-          code: 404,
-          description: 'User not found',
-        },
-      });
-    }
-
-    const result = await UserService.updateUserFromDB(
-      parseFloat(userId),
-      zodUpdateUserSchema,
-    );
-    res.status(200).json({
-      success: true,
-      message: 'User updated successfully!',
-      data: result,
-    });
-  } catch (err) {
-    res.status(404).json({
-      success: false,
-      message: 'User not found',
-      error: {
-        code: 404,
-        description: 'User not found!',
-      },
-    });
-  }
-};
-
 export const UserController = {
   createUser,
   getAllUsers,
   getSingleUsers,
   deleteSingleUsers,
-  updateSingleUser,
+  // updateSingleUser,
 };
