@@ -14,7 +14,6 @@ const userSchema = new Schema<TUser, UserModel>({
   username: {
     type: String,
     required: [true, 'User name is required'],
-    unique: true,
   },
   password: {
     type: String,
@@ -31,7 +30,7 @@ const userSchema = new Schema<TUser, UserModel>({
     },
   },
   age: { type: Number, required: [true, 'age is required'] },
-  email: { type: String, required: [true, 'email is required'], unique: true },
+  email: { type: String, required: true, unique: true },
   isActive: {
     type: String,
     enum: ['active', 'blocked'],
@@ -44,8 +43,7 @@ const userSchema = new Schema<TUser, UserModel>({
     city: { type: String, required: [true, 'city is required'] },
     country: { type: String, required: [true, 'country is required'] },
   },
-  orders: { type: [orderSchema], required: false },
-  // isDeleted: { type: Boolean, default: false },
+  orders: { type: [orderSchema], required: false, select: false },
 });
 
 userSchema.pre('save', async function (next) {
@@ -64,29 +62,18 @@ userSchema.post('save', function (doc, next) {
   next();
 });
 
-// userSchema.pre('find', function (next) {
-//   this.find({ isDeleted: { $ne: true } });
-//   next();
-// });
-// userSchema.pre('findOne', function (next) {
-//   this.find({ isDeleted: { $ne: true } });
-//   next();
-// });
-
-// // aggrigate
-// userSchema.pre('aggregate', function (next) {
-//   this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
-//   next();
-// });
+userSchema.methods.toJSON = function () {
+  const user = this.toObject();
+  delete user.password;
+  delete user.orders;
+  delete user._id;
+  delete user.__v;
+  return user;
+};
 
 userSchema.statics.isUserExists = async function (userId: number) {
   const existingUser = await User.findOne({ userId });
   return existingUser;
 };
-
-// userSchema.methods.isUserExists = async function (userId: number) {
-//   const existingUser = await User.findOne({ userId });
-//   return existingUser;
-// };
 
 export const User = model<TUser, UserModel>('User', userSchema);

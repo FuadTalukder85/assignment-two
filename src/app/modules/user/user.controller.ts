@@ -1,10 +1,6 @@
 import { Request, Response } from 'express';
 import { UserService } from './user.service';
-import {
-  OrderSchema,
-  // UpdateUserValidationSchema,
-  UserValidationSchema,
-} from './user.zod.validation';
+import { OrderSchema, UserValidationSchema } from './user.zod.validation';
 import { User } from '../user.model';
 
 //create user

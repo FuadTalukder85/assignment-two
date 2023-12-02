@@ -38,8 +38,6 @@ const updateSingleUser = async (userId: number, updateUserData: object) => {
 // detete user
 const deleteUserFromDB = async (userId: number) => {
   const result = await User.findOneAndDelete({ userId });
-  // const result = await User.updateOne({ userId }, { isDeleted: true });
-  // const result = await UserModel.aggregate([{ $match: { userId: userId } }]);
   return result;
 };
 
@@ -72,7 +70,6 @@ const getPrice = async (userId: number) => {
       },
     },
     { $project: { _id: 0 } },
-    // {totalPrice: {$sum: {$mul}}}
   ]);
   return totalPrice;
 };
