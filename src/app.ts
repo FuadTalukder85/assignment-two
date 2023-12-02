@@ -10,7 +10,7 @@ app.use(cors());
 app.use('/v2', UserRoutes);
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!');
+  res.send('Assignment twoo!');
 });
 
 export default app;
