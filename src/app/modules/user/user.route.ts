@@ -3,30 +3,27 @@ import { UserController } from './user.controller';
 const router = express.Router();
 
 //create user
-router.post('/api/users', UserController.createUser);
+router.post('/', UserController.createUser);
 
 //get all user
-router.get('/api/users', UserController.getAllUsers);
+router.get('/', UserController.getAllUsers);
 
 //get single user
-router.get('/api/users/:userId', UserController.getSingleUsers);
+router.get('/:userId', UserController.getSingleUsers);
 
-//update user route
-router.put('/api/users/:userId', UserController.updateUser);
+//update user
+router.put('/:userId', UserController.updateUser);
 
 //delete route
-router.delete('/api/users/:userId', UserController.deleteSingleUsers);
+router.delete('/:userId', UserController.deleteSingleUsers);
 
 // addOrders
-router.put('/api/users/:userId/orders', UserController.addOrders);
+router.put('/:userId/orders', UserController.addOrders);
 
 //get orders
-router.get('/api/users/:userId/orders', UserController.getOrders);
+router.get('/:userId/orders', UserController.getOrders);
 
 // get total price
-router.get(
-  '/api/users/:userId/orders/total-price',
-  UserController.getTotalPrice,
-);
+router.get('/:userId/orders/total-price', UserController.getTotalPrice);
 
 export const UserRoutes = router;

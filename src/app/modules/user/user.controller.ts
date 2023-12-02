@@ -34,11 +34,12 @@ const getAllUsers = async (req: Request, res: Response) => {
       message: 'Users fetched successfully!',
       data: result,
     });
-  } catch (err) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
     res.status(404).json({
       success: false,
-      messase: 'Can not get all user',
-      error: err,
+      message: err.message || 'Something went wrong',
+      data: err,
     });
   }
 };
@@ -95,7 +96,7 @@ const updateUser = async (req: Request, res: Response) => {
   } catch (err: any) {
     res.status(404).json({
       success: false,
-      message: err.message || 'Something went wronggg',
+      message: err.message || 'Something went wrong',
       data: null,
     });
   }
