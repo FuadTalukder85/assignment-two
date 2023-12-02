@@ -6,21 +6,16 @@ const createUserIntoDB = async (userData: TUser) => {
   if (await User.isUserExists(userData.userId)) {
     throw new Error('User already exists');
   }
-
   const result = await User.create(userData);
-
-  // const user = new User(userData);
-  // if (await user.isUserExists(userData.userId)) {
-  //   throw new Error('User already exists');
-  // }
-  // const result = await user.save();
-
   return result;
 };
 
 //get all user
 const getAllUserFromDB = async () => {
-  const result = await User.find();
+  const result = await User.aggregate([
+    { $match: {} },
+    { $project: { username: 1, fullName: 1, age: 1, email: 1, address: 1 } },
+  ]);
   return result;
 };
 
@@ -42,7 +37,8 @@ const updateSingleUser = async (userId: number, updateUserData: object) => {
 
 // detete user
 const deleteUserFromDB = async (userId: number) => {
-  const result = await User.updateOne({ userId }, { isDeleted: true });
+  const result = await User.findOneAndDelete({ userId });
+  // const result = await User.updateOne({ userId }, { isDeleted: true });
   // const result = await UserModel.aggregate([{ $match: { userId: userId } }]);
   return result;
 };

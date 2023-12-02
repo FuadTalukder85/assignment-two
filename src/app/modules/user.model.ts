@@ -45,7 +45,7 @@ const userSchema = new Schema<TUser, UserModel>({
     country: { type: String, required: [true, 'country is required'] },
   },
   orders: { type: [orderSchema], required: false },
-  isDeleted: { type: Boolean, default: false },
+  // isDeleted: { type: Boolean, default: false },
 });
 
 userSchema.pre('save', async function (next) {
@@ -64,15 +64,16 @@ userSchema.post('save', function (doc, next) {
   next();
 });
 
-userSchema.pre('find', function (next) {
-  this.find({ isDeleted: { $ne: true } });
-  next();
-});
-userSchema.pre('findOne', function (next) {
-  this.find({ isDeleted: { $ne: true } });
-  next();
-});
-// aggrigate
+// userSchema.pre('find', function (next) {
+//   this.find({ isDeleted: { $ne: true } });
+//   next();
+// });
+// userSchema.pre('findOne', function (next) {
+//   this.find({ isDeleted: { $ne: true } });
+//   next();
+// });
+
+// // aggrigate
 // userSchema.pre('aggregate', function (next) {
 //   this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
 //   next();

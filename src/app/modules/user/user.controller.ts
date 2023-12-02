@@ -109,11 +109,22 @@ const updateUser = async (req: Request, res: Response) => {
 const deleteSingleUsers = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
-    const result = await UserService.deleteUserFromDB(parseFloat(userId));
+    const user = await User.isUserExists(parseFloat(userId));
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+        error: {
+          code: 404,
+          description: 'User not found!',
+        },
+      });
+    }
+    await UserService.deleteUserFromDB(parseFloat(userId));
     res.status(200).json({
       success: true,
       message: 'User deleted successfully!',
-      data: result,
+      data: null,
     });
   } catch (err) {
     res.status(404).json({
@@ -130,7 +141,7 @@ const deleteSingleUsers = async (req: Request, res: Response) => {
 //add orders
 const addOrders = async (req: Request, res: Response) => {
   try {
-    const userId = req.params.userId;
+    const { userId } = req.params;
     const user = await User.isUserExists(parseFloat(userId));
     if (!user) {
       return res.status(404).json({

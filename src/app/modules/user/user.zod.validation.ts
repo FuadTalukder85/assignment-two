@@ -31,7 +31,7 @@ const UserValidationSchema = z.object({
     country: z.string().min(1, { message: 'Country is required' }),
   }),
   orders: z.array(OrderSchema).optional(),
-  isDeleted: z.boolean(),
+  // isDeleted: z.boolean(),
 });
 
 // update validation schema
@@ -62,7 +62,7 @@ const UpdateUserValidationSchema = z.object({
     country: z.string().min(1, { message: 'Country is required' }),
   }),
   orders: z.array(OrderSchema).optional(),
-  isDeleted: z.boolean(),
+  // isDeleted: z.boolean(),
 });
 
 export { UserValidationSchema, OrderSchema, UpdateUserValidationSchema };
