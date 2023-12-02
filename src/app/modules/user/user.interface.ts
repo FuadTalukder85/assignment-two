@@ -31,10 +31,3 @@ export interface UserModel extends Model<TUser> {
   // eslint-disable-next-line no-unused-vars
   isUserExists(userId: number): Promise<TUser | null>;
 }
-
-// export type UserMethods = {
-//   // eslint-disable-next-line no-unused-vars
-//   isUserExists(userId: number): Promise<TUser | null>;
-// };
-
-// export type UserModel = Model<TUser, Record<string, never>, UserMethods>;

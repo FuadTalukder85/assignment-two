@@ -69,6 +69,42 @@ const getSingleUsers = async (req: Request, res: Response) => {
   }
 };
 
+//update single user
+const updateUser = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const user = await User.isUserExists(parseFloat(userId));
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+        error: {
+          code: 404,
+          description: 'User not found!',
+        },
+      });
+    }
+    const userBody = req.body;
+    const zodValidationUpdateUserSchema = UserValidationSchema.parse(userBody);
+    const result = await UserService.updateSingleUser(
+      parseFloat(userId),
+      zodValidationUpdateUserSchema,
+    );
+    res.status(200).json({
+      success: true,
+      message: 'User updated successfully!',
+      data: result,
+    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
+    res.status(404).json({
+      success: false,
+      message: err.message || 'Something went wronggg',
+      data: null,
+    });
+  }
+};
+
 //delete single user
 const deleteSingleUsers = async (req: Request, res: Response) => {
   try {
@@ -190,6 +226,7 @@ export const UserController = {
   createUser,
   getAllUsers,
   getSingleUsers,
+  updateUser,
   deleteSingleUsers,
   addOrders,
   getOrders,

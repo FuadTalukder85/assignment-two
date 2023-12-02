@@ -30,6 +30,16 @@ const getSingleUserFromDB = async (userId: number) => {
   return result;
 };
 
+//update single user
+const updateSingleUser = async (userId: number, updateUserData: object) => {
+  const result = await User.findOneAndUpdate(
+    { userId },
+    { $set: updateUserData },
+    { $new: true },
+  );
+  return result;
+};
+
 // detete user
 const deleteUserFromDB = async (userId: number) => {
   const result = await User.updateOne({ userId }, { isDeleted: true });
@@ -75,6 +85,7 @@ export const UserService = {
   createUserIntoDB,
   getAllUserFromDB,
   getSingleUserFromDB,
+  updateSingleUser,
   deleteUserFromDB,
   addOrder,
   getOrder,

@@ -11,6 +11,9 @@ router.get('/api/users', UserController.getAllUsers);
 //get single user
 router.get('/api/users/:userId', UserController.getSingleUsers);
 
+//update user route
+router.put('/api/users/:userId', UserController.updateUser);
+
 //delete route
 router.delete('/api/users/:userId', UserController.deleteSingleUsers);
 
