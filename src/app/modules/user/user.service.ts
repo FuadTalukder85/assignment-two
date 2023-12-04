@@ -21,7 +21,7 @@ const getAllUserFromDB = async () => {
 
 // get single user
 const getSingleUserFromDB = async (userId: number) => {
-  const result = await User.findOne({ userId });
+  const result = await User.isUserExists(userId);
   return result;
 };
 
