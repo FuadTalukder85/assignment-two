@@ -21,7 +21,10 @@ const UserValidationSchema = z.object({
     .string()
     .email('Invalid email format')
     .min(1, { message: 'Email is required' }),
-  isActive: z.enum(['active', 'blocked']).default('active'),
+  isActive: z.boolean({
+    required_error: 'isActive is required',
+    invalid_type_error: 'isActive must be boolean',
+  }),
   hobbies: z.array(
     z.string().min(1, { message: 'At least one hobby is required' }),
   ),

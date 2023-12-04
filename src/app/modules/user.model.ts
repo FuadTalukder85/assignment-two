@@ -31,12 +31,7 @@ const userSchema = new Schema<TUser, UserModel>({
   },
   age: { type: Number, required: [true, 'age is required'] },
   email: { type: String, required: true, unique: true },
-  isActive: {
-    type: String,
-    enum: ['active', 'blocked'],
-    default: 'active',
-    message: 'Invaild status, must be "active" or "blocked" ',
-  },
+  isActive: { type: Boolean, required: true },
   hobbies: [{ type: String, required: [true, 'hobbbies are required'] }],
   address: {
     street: { type: String, required: [true, 'street is required'] },

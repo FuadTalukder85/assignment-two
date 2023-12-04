@@ -16,7 +16,7 @@ export type TUser = {
   };
   age: number;
   email: string;
-  isActive: 'active' | 'blocked';
+  isActive: boolean;
   hobbies: string[];
   address: {
     street: string;
